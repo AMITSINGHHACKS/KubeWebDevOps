@@ -33,9 +33,8 @@ pipeline {
             steps {
                 script {
                     // Use Azure CLI to log in
-                    withCredentials([azureServicePrincipal(credentialsId: 'Azure')]) {
-                        withEnv(["AZURE_SUBSCRIPTION_ID=${AZURE_CREDENTIALS.subscriptionId}", "AZURE_TENANT_ID=${AZURE_CREDENTIALS.tenant}", "AZURE_CLIENT_ID=${AZURE_CREDENTIALS.clientId}", "AZURE_CLIENT_SECRET=${AZURE_CREDENTIALS.secret}"]) {
-                            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+                    withCredentials([azureServicePrincipal(credentialsId: 'Azure', variable: 'AZURE_CREDENTIALS')]) {
+                        sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
                             // Add more Azure CLI commands as needed
                         // Add more Azure CLI commands as needed
                     }
