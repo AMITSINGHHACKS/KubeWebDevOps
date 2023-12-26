@@ -43,8 +43,7 @@ pipeline {
         }
         stage('Deployment on Kubernetes') {
             steps {
-                sh 'kubectl apply -f Kubernetes_deployment.yml'
-                sh 'kubectl apply -f servicehtml.yml'
+                sh 'kubectl get all'
             }
         } 
     }
