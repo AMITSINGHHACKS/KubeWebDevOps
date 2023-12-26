@@ -26,6 +26,17 @@ pipeline {
               }
             }
         }
+        stage('Azure Login') {
+            steps {
+                script {
+                    // Use Azure CLI to log in
+                    withAzureCLI(credentialsId: 'Azure') {
+                        sh 'az account show'
+                        // Add more Azure CLI commands as needed
+                    }
+                }
+            }
+        }
         stage('Deployment on Kubernetes') {
             steps {
                 sh 'kubectl apply -f Kubernetes_deployment.yml'
