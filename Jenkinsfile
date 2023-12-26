@@ -1,6 +1,9 @@
 
 pipeline {
     agent any
+    environment {
+        AZURE_CREDENTIALS = credentials('Azure')
+    }
     stages {
         stage('checking docker images') {
             steps {
