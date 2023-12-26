@@ -30,8 +30,8 @@ pipeline {
             steps {
                 script {
                     // Use Azure CLI to log in
-                    withAzureCLI(credentialsId: 'Azure') {
-                        sh 'az account show'
+                    withCredentials([azureServicePrincipal('Azure')]) {
+                        sh 'kubectl get all'
                         // Add more Azure CLI commands as needed
                     }
                 }
