@@ -12,11 +12,6 @@ pipeline {
                 sh 'docker ps -a'
             }
         }
-        stage('remove image') {
-            steps {
-                sh 'docker rmi -f truthaniket/jenkinsdevops:latest '
-            }
-        }
         stage('Build') {
             steps {
                 sh 'docker build -t truthaniket/jenkinsdevops:latest .'
