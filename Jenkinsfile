@@ -35,7 +35,7 @@ pipeline {
                     // Use Azure CLI to log in
                     withCredentials([azureServicePrincipal(credentialsId: 'Azure', variable: 'AZURE_CREDENTIALS')]) {
                         sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
-                        kubernetesDeploy(configs:"Kubernetes_deployment.yml")   
+                           
                         // Add more Azure CLI commands as needed
                         // Add more Azure CLI commands as needed
                     }
