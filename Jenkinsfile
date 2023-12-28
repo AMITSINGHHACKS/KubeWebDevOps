@@ -45,7 +45,7 @@ pipeline {
         stage('Deployment on Kubernetes') {
             steps {
                 sh 'export KUBECONFIG=$HOME/.kube/config'
-                sh 'kubectl get all'
+                sh 'kubectl get all --insecure-skip-tls-verify=true'
             }
         } 
     }
