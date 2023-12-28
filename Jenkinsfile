@@ -17,14 +17,14 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker build -t truthaniket/jenkinsdevops:latest .'
+                sh 'docker build -t truthaniket/kubeweb:latest .'
             }
         }
         stage('Deploy Image') {
             steps{
                script {
                   docker.withRegistry( '', 'dockerhub') {
-                  sh 'docker push truthaniket/jenkinsdevops:latest'
+                  sh 'docker push truthaniket/kubeweb:latest'
                 }
               }
             }
