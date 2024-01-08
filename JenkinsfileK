@@ -1,0 +1,49 @@
+
+pipeline {
+    agent any
+    environment {
+        AZURE_CREDENTIALS = credentials('Azure')
+    }
+    stages {
+        stage('checking docker images') {
+            steps {
+                sh 'docker images -a'
+            }
+        }
+        stage('checking docker containers') {
+            steps {
+                sh 'docker ps -a'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'docker build -t truthaniket/kubeweb:latest .'
+            }
+        }
+        stage('Deploy Image') {
+            steps{
+               script {
+                  docker.withRegistry( '', 'dockerhub') {
+                  sh 'docker push truthaniket/kubeweb:latest'
+                }
+              }
+            }
+        }
+        stage('Deployment on Kubernetes') {
+            steps {
+                sh 'export KUBECONFIG=$HOME/.kube/config'
+                sh 'kubectl get pods'
+            }
+        } 
+    }
+    post {
+    always {
+        echo 'Slack Notifications'
+        slackSend (
+            channel: 'pipeline-notifications',
+            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} \n build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+        )
+        mail bcc: '', body: "Hey the project pipeline is running \n *${currentBuild.currentResult}:* Job ${env.JOB_NAME} \n build ${env.BUILD_NUMBER} ", cc: 'aniketsingh78698@gmail.com', from: '', replyTo: '', subject: 'Jenkins devops', to: 'as216889@gmail.com'
+    }
+}
+}
